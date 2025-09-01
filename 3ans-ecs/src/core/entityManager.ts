@@ -2,6 +2,7 @@ import { Entity, EntityData } from "./entity";
 
 // EntityManager.ts
 export class EntityManager {
+  public static _instance: EntityManager;
   private nextEntity: Entity = 0;
   private entities: EntityData[] = [];
 
@@ -15,11 +16,17 @@ export class EntityManager {
     this.entities = this.entities.filter((e) => e.id !== entity.id);
   }
 
-  setSignature(entity: EntityData, signature: number) {
+  setEntitySignature(entity: EntityData, signature: number) {
     entity.signature = signature;
   }
 
   getEntities(): EntityData[] {
     return this.entities;
+  }
+
+  //Singleton accessor
+  public static getInstance(): EntityManager {
+    if (!this._instance) this._instance = new EntityManager();
+    return this._instance;
   }
 }

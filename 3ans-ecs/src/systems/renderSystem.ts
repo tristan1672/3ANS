@@ -1,14 +1,15 @@
 // systems/RenderSystem.ts
+import { System } from "@3ans-ecs/core/system";
 import * as THREE from "three";
 
-export class RenderSystem {
+export class RenderSystem extends System {
   private static _instance: RenderSystem;
-
   private renderer: THREE.WebGLRenderer;
   private scene: THREE.Scene;
   private camera: THREE.PerspectiveCamera;
 
   private constructor() {
+    super();
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.renderer.setSize(window.innerWidth, window.innerHeight);
 
@@ -22,8 +23,9 @@ export class RenderSystem {
       1000
     );
     this.camera.position.z = 5;
+  }
 
-    // Example cube
+  public init(): void {
     const geometry = new THREE.BoxGeometry();
     const material = new THREE.MeshStandardMaterial({ color: 0x44aa88 });
     const cube = new THREE.Mesh(geometry, material);
@@ -33,15 +35,23 @@ export class RenderSystem {
     light.position.set(5, 10, 7.5);
     this.scene.add(light);
 
+    //Model Importing
+
     this.animate = this.animate.bind(this);
     requestAnimationFrame(this.animate);
   }
+
+  public update(delta: number): void {}
 
   public static getInstance(): RenderSystem {
     if (!this._instance) {
       this._instance = new RenderSystem();
     }
     return this._instance;
+  }
+
+  public getSignature(): number {
+    return this.requiredSignature;
   }
 
   public getDomElement(): HTMLCanvasElement {
@@ -58,4 +68,6 @@ export class RenderSystem {
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(width, height);
   }
+
+  public cleanup(): void {}
 }
