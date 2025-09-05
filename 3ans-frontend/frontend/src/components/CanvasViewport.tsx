@@ -1,3 +1,4 @@
+// CanvasViewport.tsx
 import React, { useEffect, useRef } from "react";
 import { RenderSystem } from "../../../../3ans-ecs/src/systems/RenderSystem";
 
@@ -6,13 +7,15 @@ const CanvasViewport: React.FC = () => {
 
   useEffect(() => {
     const renderSystem = RenderSystem.getInstance();
+    
+    renderSystem.initRenderer();
+
     const canvas = renderSystem.getDomElement();
 
     if (containerRef.current && !containerRef.current.contains(canvas)) {
       containerRef.current.appendChild(canvas);
     }
 
-    // Resize function
     const resize = () => {
       if (containerRef.current) {
         const width = containerRef.current.clientWidth;
@@ -21,10 +24,7 @@ const CanvasViewport: React.FC = () => {
       }
     };
 
-    // Initial resize
     resize();
-
-    // Observe container size changes
     const resizeObserver = new ResizeObserver(resize);
     if (containerRef.current) {
       resizeObserver.observe(containerRef.current);

@@ -1,24 +1,25 @@
 //engine.ts ecs driver
-import { ComponentManager } from "@3ans-ecs/core/componentManager";
-import { SystemManager } from "@3ans-ecs/core/systemManager";
-import { EntityManager } from "@3ans-ecs/core/entityManager";
+import { Master } from "./ecs-master";
 
 export class Engine {
   private static _instance: Engine;
+  private master: Master;
 
   private constructor() {
-    ComponentManager.getInstance();
-    SystemManager.getInstance();
-    EntityManager.getInstance();
+    this.master = Master.getInstance();
   }
 
   init(): void {
-    // Register Components
+    this.master.init()
   }
 
-  update(): void {}
+  update(delta: number): void {
+    this.master.update(delta);
+  }
 
-  cleanup(): void {}
+  cleanup(): void {
+    this.master.cleanup();
+  }
 
   //Singleton accessor
   public static getInstance(): Engine {

@@ -12,7 +12,11 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@3ans-ecs/*": ["src/*"]
+      "@3ans-ecs/core/*": ["src/core/*"],
+      "@3ans-ecs/systems/*": ["src/systems/*"],
+      "@3ans-ecs/components/*": ["src/components/*"],
+      "@3ans-ecs/engine/*": ["src/engine/*"],
+      "@3ans-ecs/events/*": ["src/events/*"]
     }
   },
   "include": ["src"]
